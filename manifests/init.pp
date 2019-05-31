@@ -8,7 +8,6 @@ class slurm (
   $config    = $slurm::params::config,
   $cgroup    = $slurm::params::cgroup,
   $gres      = $slurm::params::gres,
-  $cgconfig  = $slurm::params::cgconfig,
   $sysconfig = $slurm::params::sysconfig,
   $plugstack = $slurm::params::plugstack,
   $lua       = $slurm::params::lua,
@@ -89,22 +88,6 @@ class slurm (
         notify  => Service['slurm'],
     }
 
-    # cgroups config for workers ###########################
-    if $role == 'worker' {
-        package { 'libcgroup': ensure => present }
-
-        service { 'cgconfig':
-            ensure  => running,
-            enable  => true,
-            require => Package['libcgroup'],
-        }
-
-        file { '/etc/cgconfig.conf':
-            source  => $cgconfig,
-            require => Package['libcgroup'],
-            notify  => Service['cgconfig'],
-        }
-    }
     ########################################################
 
 }
