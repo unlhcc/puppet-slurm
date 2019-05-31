@@ -8,7 +8,6 @@ class slurm (
   $config    = $slurm::params::config,
   $cgroup    = $slurm::params::cgroup,
   $gres      = $slurm::params::gres,
-  $sysconfig = $slurm::params::sysconfig,
   $plugstack = $slurm::params::plugstack,
   $lua       = $slurm::params::lua,
   $topology  = $slurm::params::topology,
@@ -80,12 +79,6 @@ class slurm (
         source  => $lua,
         recurse => true,
         purge   => true,
-    }
-
-    file { '/etc/sysconfig/slurm':
-        source  => $sysconfig,
-        require => Package['slurm'],
-        notify  => Service['slurm'],
     }
 
     ########################################################
