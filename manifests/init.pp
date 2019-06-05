@@ -31,6 +31,10 @@ class slurm (
         source => $config,
     }
 
+    file { '/etc/slurm/cgroup.conf':
+        source  => $cgroup,
+    }
+
     file { '/etc/slurm/topology.conf':
         ensure => 'file',
         owner  => 'root',
@@ -60,10 +64,6 @@ class slurm (
     # SLURM service ########################################
     # FIXME: Improve this block
     if $role == 'compute' {
-
-        file { '/etc/slurm/cgroup.conf':
-            source  => $cgroup,
-        }
 
         file { '/etc/slurm/plugstack.conf':
             source  => $plugstack,
@@ -154,6 +154,7 @@ class slurm (
             require   => [ Service['slurmdbd'],
                            Package['slurm-slurmctld'], ],
             subscribe => [ File['/etc/slurm/slurm.conf'],
+                           File['/etc/slurm/cgroup.conf'],
                            File['/etc/slurm/topology.conf'], ],
         }
     } else {
