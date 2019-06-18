@@ -59,6 +59,10 @@ class slurm (
         ensure => present,
     }
 
+    package { 'slurm-libpmi':
+        ensure => present,
+    }
+
     ########################################################
 
     # SLURM service ########################################
