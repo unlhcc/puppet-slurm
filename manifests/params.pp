@@ -17,5 +17,6 @@ class slurm::params {
     $slurmdbd_storagepass  = ''
     $slurmdbd_storageloc   = 'slurm_acct_db'
     $slurmd_service_dropin = 'puppet:///modules/common/slurm/slurmd.service.d.dropin.conf'
+    $install_contribs      = true
 
 }

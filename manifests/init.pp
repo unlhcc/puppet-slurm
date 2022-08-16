@@ -17,6 +17,7 @@ class slurm (
     String $slurmdbd_storagepass                 = $slurm::params::slurmdbd_storagepass,
     String $slurmdbd_storageloc                  = $slurm::params::slurmdbd_storageloc,
     String $slurmd_service_dropin                = $slurm::params::slurmd_service_dropin,
+    Boolean $install_contribs                    = $slurm::params::install_contribs,
   ) inherits slurm::params {
 
     ########################################################
@@ -66,6 +67,20 @@ class slurm (
 
     package { 'slurm-libpmi':
         ensure => present,
+    }
+
+    if $install_contribs {
+
+        # slurm-contribs perl scripts "use" but have no rpm requires for
+        # slurm-perlapi, install the package here to meet the dependency.
+        package { 'slurm-perlapi':
+            ensure => present,
+        }
+
+        package { 'slurm-contribs':
+            ensure => present,
+        }
+
     }
 
     ########################################################
